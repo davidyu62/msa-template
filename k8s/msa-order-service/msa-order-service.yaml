@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msa-order-service
+  namespace: davidyu
+spec:
+  selector:
+    matchLabels:
+      app: msa-order-service
+  replicas: 1
+  strategy:
+    type: Recreate
+  minReadySeconds: 10
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        type: msa-order-service
+        app:  msa-order-service
+    spec:
+      containers:
+        - name: msa-order-service
+          image: ygygood/msa-order-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9030
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: msa-order-service
+  namespace: davidyu
+spec:
+  selector:
+    app: msa-order-service
+  ports:
+    - port: 9030
+      targetPort: 9030
+  type: ClusterIP

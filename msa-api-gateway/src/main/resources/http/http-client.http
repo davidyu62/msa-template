@@ -1,0 +1,50 @@
+### CREATE USER
+POST http://{{address}}/user-service/users
+Content-Type: application/json
+
+{
+  "email" : "ygygood@lgcns.com",
+  "name" : "davidyu",
+  "pwd" : "!admin1234"
+}
+
+### LOGIN
+POST http://{{address}}/user-service/login
+Content-Type: application/json
+
+{
+  "email" : "ygygood@lgcns.com",
+  "pwd" : "!admin1234"
+}
+
+### WELCOME
+POST http://{{address}}/user-service/welcome
+
+### RETRIEVE USERS
+GET http://{{address}}/user-service/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5OGRkMmQ4My1lNDQ2LTQ1MjUtODJkMS1mNTAwZDNmYzE0YTIiLCJleHAiOjE3MjgwODgwMDEsImlhdCI6MTcyNzIyNDAwMX0.IjG1ewm-pKd4wyziJLmJ31RMBZ3fdKQJulzk_98qhf7499vv4TNz1GmUFxj5MWc1zAsj9jfpzmB26Kbp7aL1_Q
+
+
+#CATALOG SERVICE
+### RETRIEVE CATALOGS
+GET http://{{address}}/catalog-service/catalogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5OGRkMmQ4My1lNDQ2LTQ1MjUtODJkMS1mNTAwZDNmYzE0YTIiLCJleHAiOjE3MjgwODgwMDEsImlhdCI6MTcyNzIyNDAwMX0.IjG1ewm-pKd4wyziJLmJ31RMBZ3fdKQJulzk_98qhf7499vv4TNz1GmUFxj5MWc1zAsj9jfpzmB26Kbp7aL1_Q
+
+#ORDER SERVICE
+### ORDER
+POST http://{address}/order-service/8a857133-7a95-44d1-b65d-c0d3f26dd029/orders
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyOGNlYjk0Yy1iOTYzLTRlNmItYjUzYy1lYzNkZWE4ZmVjMTkiLCJleHAiOjE3MjYzOTI5NzAsImlhdCI6MTcyNTUyODk3MH0.pFYneXJsmzxKJJmMAOj1ra7ZYUKgDlMMBL1Wr7uEUWe4icqH9t7vnutyoGQlSwC92Ep03MdjUwl5yUfS7vL88Q
+
+{
+  "productId": "CATALOG-0002",
+  "qty": 10,
+  "unitPrice": 900
+}
+
+### ORDER RETRIEVE
+GET http://{address}/order-service/8a857133-7a95-44d1-b65d-c0d3f26dd029/orders
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5OGRkMmQ4My1lNDQ2LTQ1MjUtODJkMS1mNTAwZDNmYzE0YTIiLCJleHAiOjE3MjgwODgwMDEsImlhdCI6MTcyNzIyNDAwMX0.IjG1ewm-pKd4wyziJLmJ31RMBZ3fdKQJulzk_98qhf7499vv4TNz1GmUFxj5MWc1zAsj9jfpzmB26Kbp7aL1_Q

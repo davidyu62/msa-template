@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msa-user-service
+  namespace: davidyu
+spec:
+  selector:
+    matchLabels:
+      app: msa-user-service
+  replicas: 1
+  strategy:
+    type: Recreate
+  minReadySeconds: 10
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        type: msa-user-service
+        app:  msa-user-service
+    spec:
+      containers:
+        - name: msa-user-service
+          image: ygygood/msa-user-service:3.3
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: msa-user-service
+  namespace: davidyu
+spec:
+  selector:
+    app: msa-user-service
+  ports:
+    - port: 9001
+      targetPort: 9001
+      #type: ClusterIP
