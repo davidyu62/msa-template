@@ -37,19 +37,25 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-            System.out.println("requestHeader");
+
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                 return onError(exchange, "No authorization header", HttpStatus.UNAUTHORIZED);
             }
 
             String authorizationHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
-            String jwt = authorizationHeader.replace("Bearer", "");
+            String jwt = authorizationHeader.replace("Bearer ", "");
 
             if (!isJwtValid(jwt)) {
                 return onError(exchange, "JWT token is not valid", HttpStatus.UNAUTHORIZED);
             }
-            System.out.println("jwt:"+jwt);
-            return chain.filter(exchange);
+
+            // JWT 토큰이 유효한 경우, 요청 헤더에 JWT 토큰을 다시 추가해서 서비스로 전달
+            ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
+                                                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                                                        .build();
+                log.info("Modified Request with JWT Token: " + modifiedRequest.getHeaders().get(HttpHeaders.AUTHORIZATION)); // 수정된 헤더 로그 출력
+            return chain.filter(exchange.mutate().request(modifiedRequest).build());
+//            return chain.filter(exchange);
         };
     }
 

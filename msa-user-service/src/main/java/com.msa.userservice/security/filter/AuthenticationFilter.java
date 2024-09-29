@@ -1,16 +1,14 @@
-package com.msa.userservice.security;
+package com.msa.userservice.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msa.userservice.dto.UserDto;
 import com.msa.userservice.model.RequestLogin;
 import com.msa.userservice.service.UserService;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,7 +32,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private UserService userService;
     private Environment environment;
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager,
+    public  AuthenticationFilter(AuthenticationManager authenticationManager,
                                 UserService userService, Environment environment){
         super(authenticationManager);
         this.userService = userService;

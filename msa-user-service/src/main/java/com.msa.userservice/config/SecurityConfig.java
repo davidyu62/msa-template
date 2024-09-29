@@ -1,28 +1,20 @@
 package com.msa.userservice.config;
 
-import com.msa.userservice.security.AuthenticationFilter;
+import com.msa.userservice.security.filter.AuthenticationFilter;
 import com.msa.userservice.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
-import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import java.util.function.Supplier;
 
 @Configuration
 @EnableWebSecurity
@@ -32,8 +24,6 @@ public class SecurityConfig {
     Environment env;
     UserService userService;
     BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public static final String ALLOWED_IP_ADDRESS_MATCHER = "127.0.0.1";
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -50,10 +40,9 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/users", "POST")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/health-check")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/**")).access(
-                        new WebExpressionAuthorizationManager("hasIpAddress('127.0.0.1') or hasIpAddress('10.65.76.242')"))
+                        new WebExpressionAuthorizationManager("hasIpAddress('127.0.0.1') or hasIpAddress('10.65.76.242') or hasIpAddress('10.81.208.54')"))       // 인증 성공했지만 ip가 잘못되면 403, 인증실패면 401
                 .anyRequest().authenticated()
                 )
-
                 .authenticationManager(authenticationManager)
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
