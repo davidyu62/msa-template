@@ -3,7 +3,7 @@ POST http://{{address}}/user-service/users
 Content-Type: application/json
 
 {
-  "email" : "ygygood10@lgcns.com",
+  "email" : "ygygood@naver.com",
   "name" : "davidyu",
   "pwd" : "!admin1234"
 }
@@ -13,7 +13,7 @@ POST http://{{address}}/user-service/login
 Content-Type: application/json
 
 {
-  "email" : "ygygood10@lgcns.com",
+  "email" : "ygygood@naver.com",
   "pwd" : "!admin1234"
 }
 
@@ -36,7 +36,7 @@ Content-Type: application/json
 Authorization: {{jwtToken}}
 
 ### ORDER
-POST http://{{address}}/order-service/a960a0a9-7960-4795-aef0-2099e13eaad6/orders
+POST http://{{address}}/order-service/3884294c-944e-44c2-954d-4de89a3dc563/orders
 Content-Type: application/json
 Authorization: {{jwtToken}}
 
@@ -47,6 +47,24 @@ Authorization: {{jwtToken}}
 }
 
 ### ORDER RETRIEVE
-GET http://{{address}}/order-service/a960a0a9-7960-4795-aef0-2099e13eaad6/orders
+GET http://{{address}}/order-service/3884294c-944e-44c2-954d-4de89a3dc563/orders
 Content-Type: application/json
 Authorization: {{jwtToken}}
+
+### KAFKA Sync Connector
+GET http://10.81.208.54:/connectors
+
+{
+    "name":"my-sink-connect",
+    "config":{
+        "connector.class":"io.confluent.connect.jdbc.JdbcSinkConnector",
+        "connection.url":"jdbc:mysql://localhost:13306/mydb",
+        "connection.user":"root",
+        "connection.password":"test1234",
+        "auto.create":"true",
+        "auto.evolve":"true",
+        "delete.enabled":"false",
+        "tasks.max":"1",
+        "topics":"my_topic_users"
+    }
+}
